@@ -1,6 +1,8 @@
 const { MoleculerClientError } = require("moleculer").Errors;
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const DbService = require("../mixins/db.mixin");
+const constants = require("../constants");
 
 module.exports = {
     name: "users",
@@ -9,11 +11,10 @@ module.exports = {
     version: 1,
 
     settings: {
-        cache: false,
-        routes: [{
-            authentication: true
-        }]
-
+        TOKEN_SECRET: process.env.TOKEN_SECRET,
+		REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET,
+		TOKEN_EXPIRE_TIME: process.env.TOKEN_EXPIRE_TIME,
+		REFRESH_TOKEN_EXPIRE_TIME: process.env.REFRESH_TOKEN_EXPIRE_TIME,
     },
     actions: {
         signup: {
@@ -44,6 +45,33 @@ module.exports = {
             }
 
         },
+        login: {
+			rest: "POST /login",
+			permission: [constants.ROLE_EVERYONE],
+			params: {
+				email: "string",
+				password: "string"
+			},
+			async handler(ctx) {
+				const { email, password } = ctx.params;
+				const existingUser = await this.adapter.findOne({ email } );
+				this.logger.info(ctx.requestID, ":", existingUser);
+				if (!existingUser) {
+					throw new MoleculerClientError("Invalid credentials", 404, "", [{ message: "Invalid credentials" }]);
+				}
+				// this.logger.info(ctx.requestID, ":", existingUser.password);
+				const passwordMatch = await bcrypt.compare(password, existingUser.password.toString());
+				// this.logger.info(ctx.requestID, ":", passwordMatch);
+				if (!passwordMatch) {
+					throw new MoleculerClientError("Invalid credentials", 401, "", [{ message: "Invalid credentials" }]);
+				}
+				const token = this.generateToken(existingUser.id);
+				const refreshToken = this.generateRefreshToken(existingUser.id);
+
+				return { token, refreshToken };
+
+			}
+		},
         create:false,
         list:false,
         remove:false,
@@ -56,6 +84,16 @@ module.exports = {
             const max = 999999;
             return Math.floor(Math.random() * (max - min + 1)) + min;
         },
+        generateToken(userId) {
+			const { TOKEN_SECRET, TOKEN_EXPIRE_TIME } = this.settings;
+			const token = jwt.sign({ userId }, TOKEN_SECRET, { expiresIn: TOKEN_EXPIRE_TIME });
+			return token;
+		},
+        generateRefreshToken(userId) {
+			const { REFRESH_TOKEN_SECRET, REFRESH_TOKEN_EXPIRE_TIME } = this.settings;
+			const refreshToken = jwt.sign({ userId }, REFRESH_TOKEN_SECRET, { expiresIn: REFRESH_TOKEN_EXPIRE_TIME });
+			return refreshToken;
+		},
     }
 
 
