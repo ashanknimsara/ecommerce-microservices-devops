@@ -1,6 +1,13 @@
 # ecommerce-microservices-devops
 Cloud-Enabled Microservices Platform for E-commerce
 
+## services
+
+- User Management Service
+- Product Management Service
+- Order Management Service
+- Inventory Management Service
+
 ## NPM scripts
 - `npm run dev`: Start development mode (load all services locally with hot-reload & REPL)
 - `npm run start`: Start production mode (set `SERVICES` env variable to load certain services)
