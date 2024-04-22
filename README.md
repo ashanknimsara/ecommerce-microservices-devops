@@ -8,6 +8,15 @@ Cloud-Enabled Microservices Platform for E-commerce
 - Order Management Service
 - Category Management Service
 
+## Mixins
+- **db.mixin**: Database access mixin for services. Based on [moleculer-db](https://github.com/moleculerjs/moleculer-db#readme)
+
+
+## Useful links
+
+* Moleculer website: https://moleculer.services/
+* Moleculer Documentation: https://moleculer.services/docs/0.14/
+
 ## NPM scripts
 - `npm run dev`: Start development mode (load all services locally with hot-reload & REPL)
 - `npm run start`: Start production mode (set `SERVICES` env variable to load certain services)
