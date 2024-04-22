@@ -6,7 +6,7 @@ Cloud-Enabled Microservices Platform for E-commerce
 - User Management Service
 - Product Management Service
 - Order Management Service
-- Inventory Management Service
+- Category Management Service
 
 ## NPM scripts
 - `npm run dev`: Start development mode (load all services locally with hot-reload & REPL)
