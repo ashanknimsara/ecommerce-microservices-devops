@@ -2,10 +2,10 @@
 
 const DbService = require("moleculer-db");
 const MongoAdapter = require("moleculer-db-adapter-mongo");
-require('dotenv').config()
+require("dotenv").config();
 
 module.exports = function (collection) {
-	console.log(process.env.MONGO_URI)
+
 	if (process.env.MONGO_URI) {
 		return {
 			mixins: [DbService],
