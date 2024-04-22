@@ -1,6 +1,11 @@
 "use strict";
 
+"use strict";
 const ApiGateway = require("moleculer-web");
+const _ = require("lodash");
+const constants = require("../constants");
+
+const { UnAuthorizedError } = ApiGateway.Errors;
 
 module.exports = {
 	name: "api",
@@ -17,7 +22,7 @@ module.exports = {
 				use: [],
 				mergeParams: true,
 				authentication: false,
-				authorization: false,
+				authorization: true,
 				autoAliases: true,
 				aliases: {},
 				callOptions: {},
@@ -46,30 +51,58 @@ module.exports = {
 
 	methods: {
 
-		async authenticate(ctx, route, req) {
-			const auth = req.headers["authorization"];
 
-			if (auth && auth.startsWith("Bearer")) {
-				const token = auth.slice(7);
+		authorize(ctx, route, req) {
 
-				if (token == "123456") {
-					return { id: 1, name: "ashanknimsara" };
+			let token;
+
+			if(req.parsedUrl.indexOf("/~node/") > -1){
+				return Promise.resolve("");
+			}
+
+			if (req.headers.authorization) {
+				let type = req.headers.authorization.split(" ")[0];
+				if (type === "Token" || type === "Bearer") token = req.headers.authorization.split(" ")[1];
+			}
+			// const resolvedToken = await this.Promise.resolve(token);
+			const requiredRole = req.$endpoint.action.permission || [];
+			if ( requiredRole.includes(constants.ROLE_EVERYONE)){
+				return Promise.resolve("");
+			}
+			// if (resolvedToken) {
+			return ctx.call("v1.users.resolveToken", { token: token }).then((users) => {
+				if (users) {
+					this.logger.info("Authenticated via JWT: ", users.userId);
+					ctx.meta.users = _.pick(users, ["userId", "role" ]);
+					ctx.meta.token = token;
+
+					const requiredRoles = req.$endpoint.action.permission;
+
+					const userRoles = Array.isArray(users.role) ? users.role : [users.role];
+					console.log("userRoles:", userRoles, "requiredRoles:", requiredRoles);
+
+					const hasRole = requiredRoles.some(role => userRoles.includes(role));
+					console.log(hasRole);
+
+					if (hasRole || requiredRoles.includes(constants.ROLE_AUTHENTICATED)) {
+						//console.log("users :", users);
+						return this.Promise.resolve(users);
+
+					} else {
+						console.log("Insufficient Permission...");
+						return this.Promise.reject(new UnAuthorizedError("Insufficient permissions"));
+					}
 				} else {
-					throw new ApiGateway.Errors.UnAuthorizedError(ApiGateway.Errors.ERR_INVALID_TOKEN);
+					console.log("Invalid Token...");
+					return this.Promise.reject(new UnAuthorizedError("Invalid Token"));
 				}
+			});
 
-			} else {
-				return null;
-			}
-		},
 
-		async authorize(ctx, route, req) {
-			const user = ctx.meta.user;
-
-			if (req.$action.auth == "required" && !user) {
-				throw new ApiGateway.Errors.UnAuthorizedError("NO_RIGHTS");
-			}
 		}
 
-	}
+
+
+
+	},
 };
