@@ -73,6 +73,7 @@ module.exports = {
 			}
 
 		},
+		
 		update: false,
 		get: false,
 	}
