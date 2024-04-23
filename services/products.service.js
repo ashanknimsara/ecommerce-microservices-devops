@@ -13,7 +13,8 @@ module.exports = {
 			cache: false,
 			permission: [constants.ROLE_ADMIN],
 		},
-		
+
+
 		update: false,
 		get: false,
 	}
