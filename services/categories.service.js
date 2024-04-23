@@ -27,12 +27,15 @@ module.exports = {
 				const { CategoryName, CategoryCode } = ctx.params;
 
 				try {
-					const insertedCategory = await this.adapter.insert({ CategoryName, CategoryCode });
+					const insertedCategory = await this.adapter.insert({
+						CategoryName,
+						CategoryCode,
+					});
 					return { insertedCategory };
 				} catch (err) {
-					return (err);
+					return err;
 				}
-			}
+			},
 		},
 		remove: {
 			rest: "DELETE /:id",
@@ -41,10 +44,7 @@ module.exports = {
 				const { id } = ctx.params;
 				const removedField = await this.adapter.removeById(id);
 				if (!removedField) {
-					throw new MoleculerClientError(
-						"Product not found",
-						404
-					);
+					throw new MoleculerClientError("Product not found", 404);
 				}
 				return Response.success("Product deleted!");
 			},
@@ -60,17 +60,21 @@ module.exports = {
 
 			async handler(ctx) {
 				const { id, CategoryName, CategoryCode } = ctx.params;
-				const updatedCategory = await this.adapter.updateById(id, { $set: { CategoryName: CategoryName, CategoryCode: CategoryCode } });
+				const updatedCategory = await this.adapter.updateById(id, {
+					$set: {
+						CategoryName: CategoryName,
+						CategoryCode: CategoryCode,
+					},
+				});
 				if (!updatedCategory) {
 					throw new MoleculerClientError("user not found", 404);
 				}
 
 				return updatedCategory;
-			}
-
+			},
 		},
-		
+
 		update: false,
 		get: false,
-	}
+	},
 };
