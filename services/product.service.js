@@ -72,7 +72,7 @@ module.exports = {
 				return updatedProduct;
 			}
 
-		},	
+		},
 		update: false,
 		get: false,
 	}
