@@ -11,14 +11,9 @@ data:
   SERVICEDIR: services
   TRANSPORTER: nats://nats:4222
   
-  
-  
-  
-  
-  
   CACHER: Memory
   
-  MONGO_URI: mongodb://mongo/ecommerce-microservices-devops
+  MONGO_URI: mongodb+srv://ashanknimsara:4Jpl083o4rj3vR2J@cluster0.3ciifpt.mongodb.net/ecommerce-db?retryWrites=true&w=majority&appName=Cluster0
 
 ---
 #########################################################
@@ -47,7 +42,7 @@ metadata:
   #  kubernetes.io/ingress.class: nginx
 spec:
   rules:
-  - host: ecommerce-microservices-devops.127.0.0.1.nip.io
+  - host: nodedeploy-dns-kedxp8we.hcp.eastus.azmk8s.io
     http:
       paths:
       - path: /
@@ -78,7 +73,7 @@ spec:
     spec:
       containers:
       - name: api
-        image: ecommerce-microservices-devops
+        image: ashanknimsara/commerce-microservices-devops
         imagePullPolicy: IfNotPresent
         envFrom:
         - configMapRef:
@@ -89,32 +84,32 @@ spec:
 
 ---
 #########################################################
-# Greeter service
+# Users service
 #########################################################
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: greeter
+  name: users
 spec:
   selector:
     matchLabels:
-      app: greeter
+      app: users
   replicas: 2
   template:
     metadata:
       labels:
-        app: greeter
+        app: users
     spec:
       containers:
-      - name: greeter
-        image: ecommerce-microservices-devops
+      - name: users
+        image: ashanknimsara/commerce-microservices-devops
         imagePullPolicy: IfNotPresent
         envFrom:
         - configMapRef:
             name: common-env
         env:
           - name: SERVICES
-            value: greeter
+            value: users
 
 ---
 #########################################################
@@ -136,7 +131,7 @@ spec:
     spec:
       containers:
       - name: products
-        image: ecommerce-microservices-devops
+        image: ashanknimsara/commerce-microservices-devops
         imagePullPolicy: IfNotPresent
         envFrom:
         - configMapRef:
@@ -144,6 +139,66 @@ spec:
         env:
           - name: SERVICES
             value: products
+
+---
+
+#########################################################
+# Orders service
+#########################################################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orders
+spec:
+  selector:
+    matchLabels:
+      app: orders
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: orders
+    spec:
+      containers:
+      - name: orders
+        image: ashanknimsara/commerce-microservices-devops
+        imagePullPolicy: IfNotPresent
+        envFrom:
+        - configMapRef:
+            name: common-env
+        env:
+          - name: SERVICES
+            value: orders
+
+---
+
+#########################################################
+# Categories service
+#########################################################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: categories
+spec:
+  selector:
+    matchLabels:
+      app: categories
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: categories
+    spec:
+      containers:
+      - name: categories
+        image: ashanknimsara/commerce-microservices-devops
+        imagePullPolicy: IfNotPresent
+        envFrom:
+        - configMapRef:
+            name: common-env
+        env:
+          - name: SERVICES
+            value: categories
 
 ---
 #########################################################
@@ -257,9 +312,3 @@ spec:
         ports:
         - containerPort: 4222
           name: nats
-
-
-
-
-
-
