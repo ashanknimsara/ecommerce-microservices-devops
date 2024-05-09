@@ -44,7 +44,7 @@ jobs:
            tenant-id: ${{ secrets.AZURE_TENANT_ID }}
            subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       
-      - uses: azure/aks-set-context@v3
+      - uses: azure/cli@v2
         with:
            resource-group: 'ecommerce-microservices-devops'
            cluster-name: 'nodedeploy'
