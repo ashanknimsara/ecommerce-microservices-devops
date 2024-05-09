@@ -73,7 +73,7 @@ spec:
     spec:
       containers:
       - name: api
-        image: ashanknimsara/ecommerce-microservices-devops
+        image: ashanknimsara/ecommerce-microservices-devops:latest
         imagePullPolicy: IfNotPresent
         envFrom:
         - configMapRef:
@@ -102,7 +102,7 @@ spec:
     spec:
       containers:
       - name: users
-        image: ashanknimsara/ecommerce-microservices-devops
+        image: ashanknimsara/ecommerce-microservices-devops:latest
         imagePullPolicy: IfNotPresent
         envFrom:
         - configMapRef:
@@ -131,7 +131,7 @@ spec:
     spec:
       containers:
       - name: products
-        image: ashanknimsara/ecommerce-microservices-devops
+        image: ashanknimsara/ecommerce-microservices-devops:latest
         imagePullPolicy: IfNotPresent
         envFrom:
         - configMapRef:
@@ -161,7 +161,7 @@ spec:
     spec:
       containers:
       - name: orders
-        image: ashanknimsara/ecommerce-microservices-devops
+        image: ashanknimsara/ecommerce-microservices-devops:latest
         imagePullPolicy: IfNotPresent
         envFrom:
         - configMapRef:
@@ -191,7 +191,7 @@ spec:
     spec:
       containers:
       - name: categories
-        image: ashanknimsara/ecommerce-microservices-devops
+        image: aashanknimsara/ecommerce-microservices-devops:latest
         imagePullPolicy: IfNotPresent
         envFrom:
         - configMapRef:
