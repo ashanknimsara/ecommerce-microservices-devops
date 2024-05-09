@@ -27,7 +27,7 @@ jobs:
         run: npm install
 
       - name: Build Docker image
-        run: docker build -t ashanknimsara/ecommerce-microservices-devops:latest .
+        run: docker build -t ashanknimsara/ecommerce-microservices-devops:new .
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v1
