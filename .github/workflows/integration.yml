@@ -36,7 +36,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Push Docker image to Docker Hub
-        run: docker push ashanknimsara/ecommerce-microservices-devops:latest
+        run: docker push ashanknimsara/ecommerce-microservices-devops:new
 
       # - uses: azure/login@v1
       #   with:
