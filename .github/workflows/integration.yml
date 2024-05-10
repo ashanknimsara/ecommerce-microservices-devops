@@ -39,7 +39,6 @@ jobs:
         uses: azure/login@v1
         with:
           creds: '${{ secrets.AZURE_CREDENTIALS }}'
-          subscription: '${{ secrets.AZURE_SUBSCRIPTION_ID }}' # Specify your Azure subscription ID
 
       - name: Push Docker image to Docker Hub
         run: docker push ashanknimsara/ecommerce-microservices-devops:latest
