@@ -35,8 +35,14 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Print Azure credentials
+        run: |
+          echo "Azure Client ID: ${{ secrets.AZURE_CLIENTID }}"
+          echo "Azure Tenant ID: ${{ secrets.AZURE_TENANTID }}"
+          echo "Azure Subscription ID: ${{ secrets.AZURE_SUBSCRIPTIONID }}"
+
       - name: 'Azure PowerShell login with subscription'
-        uses: azure/login@v1
+        uses: azure/login@v2
         with:
           auth-type: IDENTITY
           client-id: ${{ secrets.AZURE_CLIENTID }}
