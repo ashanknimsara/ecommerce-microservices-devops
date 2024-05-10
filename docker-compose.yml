@@ -22,8 +22,8 @@ services:
       - "traefik.http.middlewares.cors.headers.accesscontrolallowmethods=GET,PUT,POST,DELETE"
       - "traefik.http.middlewares.cors.headers.accesscontrolmaxage=1000"
       - "traefik.http.middlewares.cors.headers.accesscontrolallowheaders=Origin,Accept,Content-Type,Authorization"
-      # - "traefik.http.routers.api.tls=true"
-      # - "traefik.http.routers.api.tls.certresolver=myresolver"
+      - "traefik.http.routers.api.tls=true"
+      - "traefik.http.routers.api.tls.certresolver=myresolver"
     networks:
       - internal
 
