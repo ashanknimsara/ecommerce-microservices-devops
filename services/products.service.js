@@ -51,6 +51,7 @@ module.exports = {
 				return Response.success("Product deleted!");
 			},
 		},
+		//update product
 		updateProduct: {
 			rest: "PUT update/:id",
 			permission: [constants.ROLE_ADMIN],
