@@ -15,7 +15,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.log.level=DEBUG"
-      - "traefik.http.routers.api.rule=Host(``)"
+      - "traefik.http.routers.api.rule=Host(`nodedeploy-dns-b98le466.hcp.eastus.azmk8s.io`)"
       - "traefik.http.services.api.loadbalancer.server.port=3000"
       - "traefik.http.routers.api.middlewares=cors"
       - "traefik.http.middlewares.cors.headers.accesscontrolalloworigin=*"

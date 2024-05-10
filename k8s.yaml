@@ -38,8 +38,8 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress
-  annotations:
-  kubernetes.io/ingress.class: nginx
+  #annotations:
+  #  kubernetes.io/ingress.class: nginx
 spec:
   rules:
   - host: nodedeploy-dns-b98le466.hcp.eastus.azmk8s.io
