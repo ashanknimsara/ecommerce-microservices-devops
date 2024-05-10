@@ -22,7 +22,7 @@ module.exports = {
 				use: [],
 				mergeParams: true,
 				authentication: false,
-				authorization: false, //previous true 
+				authorization: false, //previous true
 				autoAliases: true,
 				aliases: {},
 				callOptions: {},
