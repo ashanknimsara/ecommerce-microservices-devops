@@ -35,10 +35,14 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Azure Login
+      - name: 'Az CLI login without subscription'
         uses: azure/login@v1
         with:
-          creds: '${{ secrets.AZURE_CREDENTIALS }}'
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          allow-no-subscriptions: true
+          
+      - run: |
+          az account show --output none
 
       - name: Push Docker image to Docker Hub
         run: docker push ashanknimsara/ecommerce-microservices-devops:latest
