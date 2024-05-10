@@ -51,29 +51,28 @@ module.exports = {
 				return Response.success("Product deleted!");
 			},
 		},
-		//update product
-		updateProduct: {
-			rest: "PUT update/:id",
-			permission: [constants.ROLE_ADMIN],
-			params: {
-				id: "string",
-				productName: "string",
-				productCode: "string",
-				productCategory: "string",
-				productPrice: "string"
-			},
+		// updateProduct: {
+		// 	rest: "PUT update/:id",
+		// 	permission: [constants.ROLE_ADMIN],
+		// 	params: {
+		// 		id: "string",
+		// 		productName: "string",
+		// 		productCode: "string",
+		// 		productCategory: "string",
+		// 		productPrice: "string"
+		// 	},
 
-			async handler(ctx) {
-				const { id, productName, productCode, productCategory, productPrice } = ctx.params;
-				const updatedProduct = await this.adapter.updateById(id, { $set: { productName: productName, productCode: productCode, productCategory: productCategory, productPrice: productPrice } });
-				if (!updatedProduct) {
-					throw new MoleculerClientError("user not found", 404);
-				}
+		// 	async handler(ctx) {
+		// 		const { id, productName, productCode, productCategory, productPrice } = ctx.params;
+		// 		const updatedProduct = await this.adapter.updateById(id, { $set: { productName: productName, productCode: productCode, productCategory: productCategory, productPrice: productPrice } });
+		// 		if (!updatedProduct) {
+		// 			throw new MoleculerClientError("user not found", 404);
+		// 		}
 
-				return updatedProduct;
-			}
+		// 		return updatedProduct;
+		// 	}
 
-		},
+		// },
 		update: false,
 		get: false,
 	}
