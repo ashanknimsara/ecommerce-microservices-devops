@@ -15,7 +15,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.log.level=DEBUG"
-      - "traefik.http.routers.api.rule=Host(`52.150.34.169`)"
+      - "traefik.http.routers.api.rule=Host(`13.251.59.130`)"
       - "traefik.http.services.api.loadbalancer.server.port=3000"
       - "traefik.http.routers.api.middlewares=cors"
       - "traefik.http.middlewares.cors.headers.accesscontrolalloworigin=*"
